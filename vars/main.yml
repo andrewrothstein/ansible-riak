@@ -1,0 +1,3 @@
+---
+# vars file for ansible-riak
+pkg_type : "{% if ansible_os_family == 'RedHat' %}rpm{% else %}deb{% endif %}"

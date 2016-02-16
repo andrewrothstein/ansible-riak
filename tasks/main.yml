@@ -1,0 +1,17 @@
+---
+# tasks file for ansible-riak
+- name: download installer...
+  get_url: >-
+    url=https://packagecloud.io/install/repositories/basho/riak/script.{{pkg_type}}.sh
+    dest=/usr/local/bin/install-riak.sh
+    owner=root
+    group=root
+    mode=0755
+
+- name: run installer...
+  command: '/usr/local/bin/install-riak.sh'
+  args:
+    creates: /etc/yum.repos.d/basho_riak.repo
+
+- name: installing...
+  package: name=riak state=present
