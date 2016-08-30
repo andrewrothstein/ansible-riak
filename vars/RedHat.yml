@@ -1,0 +1,4 @@
+---
+riak_dep_pkgs: []
+riak_pkg_type: rpm
+riak_pkg_file: /etc/yum.repos.d/basho_riak.repo

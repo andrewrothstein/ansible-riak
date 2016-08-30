@@ -1,17 +1,33 @@
 ---
-# tasks file for ansible-riak
+- name: resolve platform specific vars
+  include_vars: "{{item}}"
+  with_first_found:
+    - "{{ansible_distribution}}-{{ansible_distribution_release}}.yml"
+    - "{{ansible_distribution}}.yml"
+    - "{{ansible_os_family}}.yml"
+
+- name: install os pkgs
+  become: yes
+  become_user: root
+  with_items: '{{riak_dep_pkgs}}'
+  package: name={{item}} state=present
+    
 - name: download installer...
+  become: yes
+  become_user: root
   get_url: >-
-    url=https://packagecloud.io/install/repositories/basho/riak/script.{{pkg_type}}.sh
+    url=https://packagecloud.io/install/repositories/basho/riak/script.{{riak_pkg_type}}.sh
     dest=/usr/local/bin/install-riak.sh
-    owner=root
-    group=root
     mode=0755
 
 - name: run installer...
+  become: yes
+  become_user: root
   command: '/usr/local/bin/install-riak.sh'
   args:
-    creates: /etc/yum.repos.d/basho_riak.repo
+    creates: '{{riak_pkg_file}}'
 
 - name: installing...
+  become: yes
+  become_user: root
   package: name=riak state=present

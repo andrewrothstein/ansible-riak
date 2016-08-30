@@ -1,0 +1,5 @@
+---
+riak_dep_pkgs:
+  - apt-transport-https
+riak_pkg_type: deb
+riak_pkg_file: /etc/apt/sources.list.d/basho_riak.list
